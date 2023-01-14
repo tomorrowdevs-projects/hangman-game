@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(30 41 139);
+}
+
+
+header {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgb(54 63 151);
+}
+
+.title {
+    color: white;
+    font-size: 22px;
+    font-weight: 500;
+}
