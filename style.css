@@ -6,6 +6,12 @@
   background-color: rgb(30 41 139);
 }
 
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 header {
   display: flex;
   justify-content: center;
@@ -23,4 +29,20 @@ header {
 .btn{
     background-color: white;
     padding: 0.5rem 0.4rem;
+}
+
+#hang-board{
+    padding: 4rem 2rem;
+}
+
+.hang-word{
+    display: flex;
+    justify-content: space-around;
+    width: 11rem;
+}
+
+.low-dash{
+    color: white;
+    font-size: 22px;
+    font-weight: 600;
 }
