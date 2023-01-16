@@ -46,3 +46,21 @@ header {
     font-size: 22px;
     font-weight: 600;
 }
+
+.game-alert {
+  background-color: rgba(9, 165, 154, 0.4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-alert-message {
+  font-size: 40px;
+  padding: 20px;
+  background-color: var(--accent-color);
+}

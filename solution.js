@@ -11,6 +11,7 @@ keyBoardButtons.map((keyBoardButton) => {
 
 const keyBoardSection = document.getElementById("keyboard");
 const hangWordContainer = document.querySelector(".hang-word");
+const hangBoard = document.querySelector("#hang-board");
 
 async function createKeyBoard(keyBoard) {
   keyBoard.forEach((key) => {
@@ -20,39 +21,56 @@ async function createKeyBoard(keyBoard) {
     newButton.appendChild(buttonLetter);
     keyBoardSection.appendChild(newButton);
   });
-    const secretWords = await getSecretWords();
-    const letterPressed = keyPressed(secretWords);
-
+  const secretWords = await getSecretWords();
+  const letterPressed = keyPressed(secretWords);
 }
 
 function keyPressed(randomSecretWord) {
   const buttons = document.querySelectorAll(".btn");
   let letterPressed = "";
   const lettersPressed = [];
+   const lettersGuessed = [];
+  const maxAttempts = 3;
+  let attempts = 0;
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
       letterPressed = button.textContent;
       lettersPressed.push(letterPressed);
-        button.disabled = true;
-        console.log("rnd",randomSecretWord);
-        const isGuessed = checkIfGuessed(randomSecretWord, letterPressed);
-        if (isGuessed) {
-            const paragraphsLowDash = document.querySelectorAll('p');
-            console.log(paragraphsLowDash);
-            let revealWord = '';
-            paragraphsLowDash.forEach((paragraph, i) => {
-              //devo sostiuire il contenuto della p lowdash _ con la lettera indovinata se indovinata!
-              if (letterPressed === randomSecretWord[i] && paragraph.innerHTML !== letterPressed) {
-                paragraph.innerHTML = randomSecretWord[i]
-              }
-            })
-             
-        } else {
-            console.log("ehila");
+      button.disabled = true;
+      console.log("rnd", randomSecretWord);
+      const isGuessed = checkIfGuessed(randomSecretWord, letterPressed);
+      if (isGuessed) {
+        const paragraphsLowDash = document.querySelectorAll("p");
+       
+        
+        let revealWord = "";
+        paragraphsLowDash.forEach((paragraph, i) => {
+          console.log(randomSecretWord.length);
+          if (
+            letterPressed === randomSecretWord[i] &&
+            paragraph.innerHTML !== letterPressed
+          ) {
+            paragraph.innerHTML = randomSecretWord[i]; 
+            lettersGuessed.push(paragraph.innerHTML);
+            console.log(lettersGuessed);
+            if (lettersGuessed.length === randomSecretWord.length) {
+              console.log(lettersGuessed);
+              showAlert('won');
+            }
+          }
+          
+          
+
+        });
+      } else {
+        attempts = attempts + 1;
+        if (attempts === maxAttempts) {
+          showAlert("lost");
         }
+      }
     });
   });
-    return letterPressed;
+  return letterPressed;
 }
 
 async function getSecretWords() {
@@ -64,41 +82,56 @@ async function getSecretWords() {
         secretWords.push(planet.name.toUpperCase());
       });
     });
-    console.log("secret words array: ", secretWords);
-    const randomSecretWord = randomlyChosenWord(secretWords);
-    return randomSecretWord;
+  console.log("secret words array: ", secretWords);
+  const randomSecretWord = randomlyChosenWord(secretWords);
+  return randomSecretWord;
 }
 
 function randomlyChosenWord(secrets) {
   const randomNumberIndex = Math.floor(Math.random() * secrets.length);
-    console.log("random secret word: ", secrets[randomNumberIndex]);
-    
-    createHangBoard(secrets[randomNumberIndex]);
-    return secrets[randomNumberIndex];
+  console.log("random secret word: ", secrets[randomNumberIndex]);
+
+  createHangBoard(secrets[randomNumberIndex]);
+  return secrets[randomNumberIndex];
 }
 
 function createHangBoard(randomSecretWord) {
-    const splittedWord = randomSecretWord.split("");
-    console.log("splitted",splittedWord);
-    splittedWord.forEach((letter) => {
-        const newVoidLowDash = document.createElement("p");
-        newVoidLowDash.classList.add("low-dash");
-        const pLowDash = document.createTextNode("_");
-        newVoidLowDash.appendChild(pLowDash);
-        hangWordContainer.appendChild(newVoidLowDash);
-    });
+  const splittedWord = randomSecretWord.split("");
+  console.log("splitted", splittedWord);
+  splittedWord.forEach((letter) => {
+    const newVoidLowDash = document.createElement("p");
+    newVoidLowDash.classList.add("low-dash");
+    const pLowDash = document.createTextNode("_");
+    newVoidLowDash.appendChild(pLowDash);
+    hangWordContainer.appendChild(newVoidLowDash);
+  });
 }
 
 function checkIfGuessed(secretWord, letterPressed) {
-    if (secretWord.includes(letterPressed)) {
-        return true;
-    } else {
-        return false;
-    }
+  if (secretWord.includes(letterPressed)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
+function showAlert(message) {
+  const alertMessage = `
+            <div class="game-alert">
+                <div class="game-alert-message">
+                    You ${message === "lost" ? "lost" : "won"}, play again!
+                </div>
+            </div>
+    `;
 
+  hangBoard.innerHTML = hangBoard.innerHTML + alertMessage;
+}
 
+/*
+function checkIfWon(wordsArray) {
+  const isEveryWordGuessed = (currentLetter) => currentLetter.innerHTML !== '_';
+  wordsArray.every(isEveryWordGuessed);
+}
+*/
 
 createKeyBoard(keyBoardButtons);
-
