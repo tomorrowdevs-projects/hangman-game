@@ -12,6 +12,7 @@ keyBoardButtons.map((keyBoardButton) => {
 const keyBoardSection = document.getElementById("keyboard");
 const hangWordContainer = document.querySelector(".hang-word");
 const hangBoard = document.querySelector("#hang-board");
+const main = document.querySelector('main');
 
 async function createKeyBoard(keyBoard) {
   keyBoard.forEach((key) => {
@@ -83,16 +84,16 @@ async function getSecretWords() {
       });
     });
   console.log("secret words array: ", secretWords);
-  const randomSecretWord = randomlyChosenWord(secretWords);
+  const randomSecretWord = await randomlyChosenWord(secretWords);
   return randomSecretWord;
 }
 
-function randomlyChosenWord(secrets) {
+async function randomlyChosenWord(secrets) {
   const randomNumberIndex = Math.floor(Math.random() * secrets.length);
   console.log("random secret word: ", secrets[randomNumberIndex]);
-
+  
   createHangBoard(secrets[randomNumberIndex]);
-  return secrets[randomNumberIndex];
+  return await secrets[randomNumberIndex];
 }
 
 function createHangBoard(randomSecretWord) {
@@ -115,17 +116,48 @@ function checkIfGuessed(secretWord, letterPressed) {
   }
 }
 
+const reset = async function resetProgram() {
+  /*
+  const keyBoardSection = document.getElementById("keyboard");
+  const hangWordContainer = document.querySelector(".hang-word");
+  const hangBoard = document.querySelector("#hang-board");
+  const main = document.querySelector('main');
+  */
+  //window.location.reload();
+  hangBoard.innerHTML = '';
+  hangBoard.appendChild(hangWordContainer, hangWordContainer.innerHTML = '');
+  await getSecretWords();
+  hangBoard.removeChild(hangWordContainer);
+  hangBoard.appendChild(hangWordContainer, hangWordContainer.innerHTML = '');
+
+  keyBoardSection.innerHTML = '';
+
+  createKeyBoard(keyBoardButtons);
+  
+}
+
 function showAlert(message) {
   const alertMessage = `
             <div class="game-alert">
                 <div class="game-alert-message">
-                    You ${message === "lost" ? "lost" : "won"}, play again!
+                    You ${message}, <button id="reset-btn">play again!</button>
                 </div>
             </div>
     `;
 
   hangBoard.innerHTML = hangBoard.innerHTML + alertMessage;
+
+  const resetBtn = document.getElementById('reset-btn');
+  resetBtn.addEventListener('click', reset);
+    
+    //body.innerHTML = '';
+    //body.appendChild(await Promise.all([createKeyBoard(keyBoardButtons)]));
+    
+    
+ 
 }
+
+
 
 /*
 function checkIfWon(wordsArray) {
