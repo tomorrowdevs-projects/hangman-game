@@ -3,12 +3,6 @@
 //per le parole da indovinare proviamo ad usare una api swapi
 //quando ho finito la partita avro un button che resetta
 
-/*
-keyBoardButtons.map((keyBoardButton) => {
-  console.log(keyBoardButton.letter);
-});
-*/
-
 const keyBoardSection = document.getElementById("keyboard");
 const hangWordContainer = document.querySelector(".hang-word");
 const hangBoard = document.querySelector("#hang-board");
@@ -23,7 +17,8 @@ async function createKeyBoard(keyBoard) {
     keyBoardSection.appendChild(newButton);
   });
   const secretWords = await getSecretWords();
-  const letterPressed = keyPressed(secretWords);
+  keyPressed(secretWords);
+
 }
 
 function keyPressed(randomSecretWord) {
@@ -33,8 +28,38 @@ function keyPressed(randomSecretWord) {
    const lettersGuessed = [];
   const maxAttempts = 3;
   let attempts = 0;
+  document.addEventListener("keyup", (event) => {
+    const keyPressed = String.fromCharCode(event.keyCode);
+    const isGuessed = checkIfGuessed(randomSecretWord, keyPressed);
+    if (isGuessed) {
+      const paragraphsLowDash = document.querySelectorAll("p");
+
+      paragraphsLowDash.forEach((paragraph, i) => {
+        console.log(randomSecretWord.length);
+        if (
+          keyPressed === randomSecretWord[i] &&
+          paragraph.innerHTML !== keyPressed
+        ) {
+          paragraph.innerHTML = randomSecretWord[i];
+          lettersGuessed.push(paragraph.innerHTML);
+          console.log(lettersGuessed);
+          if (lettersGuessed.length === randomSecretWord.length) {
+            console.log(lettersGuessed);
+            showAlert("won");
+          }
+        }
+      });
+    } else {
+      attempts = attempts + 1;
+      if (attempts === maxAttempts) {
+        showAlert("lost");
+      }
+    }
+  });
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
+      button.classList.add("clicked-btn");
+      button.attributes.disabled = true;
       letterPressed = button.textContent;
       lettersPressed.push(letterPressed);
       button.disabled = true;
@@ -70,9 +95,20 @@ function keyPressed(randomSecretWord) {
         }
       }
     });
+
+    
+
+
+
   });
   return letterPressed;
 }
+
+
+function btnKeyPressed() {
+  
+}
+
 
 async function getSecretWords() {
   const secretWords = [];
