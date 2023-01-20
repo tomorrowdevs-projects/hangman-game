@@ -160,7 +160,7 @@ function checkIfGuessed(secretWord, letterPressed) {
 /**
  * Reset the game by removing the hangboard, getting new secret words, and creating a new keyboard.
  */
-const reset = async function resetProgram() {
+const reset = function resetProgram() {
   hangBoard.innerHTML = "";
   hangBoard.appendChild(hangWordContainer);
   hangBoard.removeChild(hangWordContainer);

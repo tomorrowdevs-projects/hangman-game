@@ -6,12 +6,10 @@
   background-color: rgb(30 41 139);
 }
 
-
-
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header {
@@ -28,11 +26,11 @@ header {
   font-weight: 500;
 }
 
-#keyboard{
+#keyboard {
   width: 48vw;
 }
 
-.btn{
+.btn {
   height: 3em;
   width: 3em;
   color: rgba(0, 0, 0, 0.7);
@@ -53,25 +51,25 @@ header {
   transform: translateY(-0.2rem);
 }
 
-.clicked-btn{
+.clicked-btn {
   background-color: tomato;
   cursor: not-allowed;
 }
 
-#hang-board{
-    padding: 4rem 2rem;
+#hang-board {
+  padding: 4rem 2rem;
 }
 
-.hang-word{
-    display: flex;
-    justify-content: space-around;
-    width: 11rem;
+.hang-word {
+  display: flex;
+  justify-content: space-around;
+  width: 11rem;
 }
 
-.low-dash{
-    color: white;
-    font-size: 22px;
-    font-weight: 600;
+.low-dash {
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
 }
 
 .game-alert {
@@ -96,7 +94,7 @@ header {
   align-items: center;
 }
 
-#reset-btn{
+#reset-btn {
   border-radius: 8px;
   border: none;
   color: whitesmoke;
@@ -108,9 +106,8 @@ header {
   cursor: pointer;
   transition: transform 0.3s;
   box-shadow: 2px 11px 17px 5px rgba(0, 0, 0, 0.48);
-  
 }
 
-#reset-btn:hover{
+#reset-btn:hover {
   transform: translateY(-0.2rem);
 }
